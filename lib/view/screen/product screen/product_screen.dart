@@ -1,7 +1,6 @@
 // ignore_for_file: must_be_immutable
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../../data/model/response/homepage_model/newproduct_model.dart';
+import 'package:souq_port_said/data/model/response/newproduct_dio_model.dart';
 import '../../../utill/color_resources.dart';
 import '../../../utill/custom_themes.dart';
 import '../../../utill/font_size/dimensions.dart';
@@ -9,8 +8,8 @@ import '../../../utill/images.dart';
 import '../../basewidget/navigator.dart';
 
 class ProductScreen extends StatefulWidget {
-  NewProductsModel? newProductsModel;
-  ProductScreen({Key? key, required this.newProductsModel}) : super(key: key);
+  NewProductsDioModel? newProductsDioModel;
+  ProductScreen({Key? key, required this.newProductsDioModel}) : super(key: key);
 
   @override
   State<ProductScreen> createState() => _ProductScreenState();
@@ -19,7 +18,7 @@ class ProductScreen extends StatefulWidget {
 class _ProductScreenState extends State<ProductScreen> {
   @override
   Widget build(BuildContext context) {
-    final ch = MediaQuery.of(context).size.height;
+    // final ch = MediaQuery.of(context).size.height;
     final cw = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.black,
@@ -57,12 +56,7 @@ class _ProductScreenState extends State<ProductScreen> {
               child: Column(
                 children: [
                   //---------------------Images section---------------
-                  SizedBox(
-                    height: ch * .4,
-                    width: cw,
-                    //  color: Colors.white,
-                    child: Image.asset("${widget.newProductsModel!.image}"),
-                  ),
+                  Image.network(widget.newProductsDioModel!.image,height: MediaQuery.of(context).size.height * .4, width: MediaQuery.of(context).size.width / 1.3,),
                   Container(
                     // height: ch * .5,
                     width: cw,
@@ -81,7 +75,7 @@ class _ProductScreenState extends State<ProductScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("${widget.newProductsModel!.productName}",
+                          Text(widget.newProductsDioModel!.title,
                               style: titilliumRegular.copyWith(
                                 fontSize: Dimensions.fontSizeOverLarge,
                                 color: ColorResources.black,

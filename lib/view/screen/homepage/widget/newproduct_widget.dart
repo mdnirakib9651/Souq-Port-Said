@@ -1,7 +1,6 @@
 // ignore_for_file: must_be_immutable
-
 import 'package:flutter/material.dart';
-import '../../../../data/model/response/homepage_model/newproduct_model.dart';
+import 'package:souq_port_said/data/model/response/newproduct_dio_model.dart';
 import '../../../../utill/color_resources.dart';
 import '../../../../utill/font_size/dimensions.dart';
 import '../../../../utill/style/ubuntu.dart';
@@ -9,10 +8,10 @@ import '../../../../utill/style/ubuntu.dart';
 // ignore: camel_case_types
 class NewProduct_widget extends StatelessWidget {
 
-  NewProductsModel? newProductsModel;
+  NewProductsDioModel? newProductsDioModel;
   NewProduct_widget({
     super.key,
-    this.newProductsModel
+    this.newProductsDioModel
   });
 
   @override
@@ -37,14 +36,15 @@ class NewProduct_widget extends StatelessWidget {
                     ),
                   ],
                 ),
-                Image.asset("${newProductsModel!.image}", height: 140, width: 150,),
+                Image.network(newProductsDioModel!.image, height: 140, width: 150,),
               ],
             ),
           ),
           const SizedBox(height: 9,),
-          Text("${newProductsModel!.productName}",style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeLarge,color: ColorResources.textFontColor),textAlign: TextAlign.center,),
+          Flexible(
+              child: Text(newProductsDioModel!.title,style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeLarge,color: ColorResources.textFontColor, overflow: TextOverflow.ellipsis,),textAlign: TextAlign.center, maxLines: 2,)),
           const SizedBox(height: 5,),
-          Text("\$${newProductsModel!.price}",style: ubuntuHeader.copyWith(fontSize: Dimensions.fontSizeExtraLarge, color: ColorResources.black,),)
+          Text("\$${newProductsDioModel!.price}",style: ubuntuHeader.copyWith(fontSize: Dimensions.fontSizeExtraLarge, color: ColorResources.black,),)
         ]
     );
   }

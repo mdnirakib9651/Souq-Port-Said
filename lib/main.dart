@@ -1,5 +1,8 @@
+
 import 'package:flutter/material.dart';
 import 'package:souq_port_said/data/provider/find%20provider/find_provider.dart';
+import 'package:souq_port_said/data/provider/newproduct_dio_provider.dart';
+import 'package:souq_port_said/data/provider/splash%20provider/splash_provider.dart';
 import 'data/provider/favorurite/favorurite_provider.dart';
 import 'data/provider/find provider/findscreen_provider.dart';
 import 'data/provider/find provider/findwoman_provider.dart';
@@ -8,10 +11,15 @@ import 'data/provider/homepage_provider/popular_provider.dart';
 import 'data/provider/homepage_provider/popularapi_provider.dart';
 import 'view/screen/splash/splash_screen.dart';
 import 'package:provider/provider.dart';
+import 'di_container.dart' as di;
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await di.init();
   runApp(MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (context) => di.sl<NewProductDioProvider>()),
+        ChangeNotifierProvider(create: (context) => di.sl<SplashProvider>()),
         ChangeNotifierProvider<NewProductProvider>(create: (change) => NewProductProvider()),
         ChangeNotifierProvider<PopularProvider>(create: (change) => PopularProvider()),
         ChangeNotifierProvider<PopularApiProvider>(create: (change) => PopularApiProvider()),
@@ -23,8 +31,21 @@ void main() {
       child: const MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
