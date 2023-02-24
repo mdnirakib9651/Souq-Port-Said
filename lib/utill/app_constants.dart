@@ -9,5 +9,6 @@ class AppConstants {
   static const String userId = 'user_id';
   static const String theme = 'theme';
   static const String cartList = 'cart_list';
+  static const String loveList = 'love_list';
 }
 

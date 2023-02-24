@@ -2,11 +2,9 @@ import 'dart:async';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:souq_port_said/data/provider/homepage_provider/newproduct_provider.dart';
 import 'package:souq_port_said/data/provider/newproduct_dio_provider.dart';
 import '../../../data/provider/splash provider/splash_provider.dart';
 import '../../../utill/color_resources.dart';
-import '../dashboard/navigationbar_screen.dart';
 import '../signin_in/signin_screen.dart';
 import 'widget/splash_printer.dart';
 
@@ -19,7 +17,6 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
 
-  final GlobalKey<ScaffoldMessengerState> _globalKey = GlobalKey();
   late StreamSubscription<ConnectivityResult> _onConnectivityChanged;
 
   @override

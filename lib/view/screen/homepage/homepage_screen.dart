@@ -7,6 +7,7 @@ import 'package:souq_port_said/utill/color_resources.dart';
 import 'package:souq_port_said/utill/font_size/dimensions.dart';
 import 'package:souq_port_said/utill/images.dart';
 import 'package:souq_port_said/view/basewidget/Icon%20Button/iconbutton_widget.dart';
+import '../../../data/provider/cart provider/cart_provider.dart';
 import '../../../data/provider/homepage_provider/newproduct_provider.dart';
 import '../../../data/provider/homepage_provider/popular_provider.dart';
 import '../../../utill/style/lato_styles.dart';
@@ -63,7 +64,6 @@ class _homePageScreenState extends State<homePageScreen> {
             child: CustomScrollView(
               controller: _scrollController,
               slivers: [
-
                 // ------------>>> AppBar <<<----------------
                 SliverAppBar(
                   backgroundColor: ColorResources.black,
@@ -72,7 +72,23 @@ class _homePageScreenState extends State<homePageScreen> {
                   centerTitle: true,
                   actions: [
                     IconButtonWidget(image: Images.search, onTab: () => const SearchScreen()), // --->> Search Screen
-                    IconButtonWidget(image: Images.cart, onTab: () => const MyCartss()), // --->> Search Screen
+                    Stack(
+                      children: [
+                        IconButtonWidget(image: Images.cart, onTab: () => const MyCartss()),
+                        Positioned(
+                            top: 6,
+                            right: 6,
+                            child: Consumer<CartProvider>(builder: (context, cart, child){
+                              return CircleAvatar(radius: 7, backgroundColor: ColorResources.red,
+                                child: Text(cart.cartList.length.toString(),
+                                    style: ubuntuSemiBold.copyWith(color: ColorResources.white, fontSize: Dimensions.fontSizeExtraSmall,
+                                    )),
+                              );
+                            },)
+                        ),
+                      ],
+                    ), // --->> Search Screen
+                    const SizedBox(width: 5,)
                   ],
                   floating: false, // --->> Scroable
                   pinned: true, // --->> AppBar Fixed
@@ -136,6 +152,7 @@ class _homePageScreenState extends State<homePageScreen> {
                     titlePadding: const EdgeInsets.only(top: 170),
                   ),
                 ),
+
                 NotificationListener<OverscrollIndicatorNotification>(
                   onNotification: (overScroll){
                     overScroll.disallowIndicator();
@@ -166,7 +183,7 @@ class _homePageScreenState extends State<homePageScreen> {
                           // ignore: unnecessary_null_comparison
                           List<NewProductsDioModel> productDioList;
                           productDioList = newDioProduct.newProductDioList;
-                          return productDioList.length > 0 ?
+                          return productDioList.isNotEmpty ?
                           SizedBox(
                             height: 280,
                             child: NotificationListener<OverscrollIndicatorNotification>(
@@ -187,7 +204,7 @@ class _homePageScreenState extends State<homePageScreen> {
                                         padding: const EdgeInsets.symmetric(horizontal: 10),
                                         child: SizedBox(
                                           width: 160,
-                                          child: NewProduct_widget(newProductsDioModel: productDioList[index],),
+                                          child: NewProduct_widget(newProductsDioModel: productDioList[index]),
                                         ),
                                       ),
                                     );

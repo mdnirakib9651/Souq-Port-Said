@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 import '../../../utill/color_resources.dart';
 import '../../../utill/font_size/dimensions.dart';
 import '../../../utill/images.dart';
@@ -240,7 +238,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                             alignment: Alignment.center,
                                             width: 50,
                                             height: 50,
-                                            decoration:  BoxDecoration(
+                                            decoration: const BoxDecoration(
                                               shape: BoxShape.circle,
                                               color: Colors.grey,
                                             ),
@@ -283,7 +281,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                         color: ColorResources.textCart,
                                       )),
                                   const SizedBox(height: 10,),
-                                  Container(
+                                  SizedBox(
                                     width: 180,
                                     child: Expanded(
                                       flex: 2,

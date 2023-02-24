@@ -1,11 +1,20 @@
 // ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:souq_port_said/data/model/response/card%20model/card_model.dart';
 import 'package:souq_port_said/data/model/response/newproduct_dio_model.dart';
+import '../../../data/model/response/love model/love_model.dart';
+import '../../../data/provider/cart provider/cart_provider.dart';
+import '../../../data/provider/love_provider/love_provider.dart';
 import '../../../utill/color_resources.dart';
 import '../../../utill/custom_themes.dart';
 import '../../../utill/font_size/dimensions.dart';
 import '../../../utill/images.dart';
+import '../../../utill/style/ubuntu.dart';
+import '../../basewidget/Icon Button/iconbutton_widget.dart';
 import '../../basewidget/navigator.dart';
+import '../../basewidget/snackbar.dart';
+import '../cart/cart.dart';
 
 class ProductScreen extends StatefulWidget {
   NewProductsDioModel? newProductsDioModel;
@@ -16,12 +25,15 @@ class ProductScreen extends StatefulWidget {
 }
 
 class _ProductScreenState extends State<ProductScreen> {
+
   @override
   Widget build(BuildContext context) {
     // final ch = MediaQuery.of(context).size.height;
     final cw = MediaQuery.of(context).size.width;
+    LoveModel love = LoveModel(widget.newProductsDioModel, 1);
+    LoveProvider loveProvider = Provider.of<LoveProvider>(context, listen: false);
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: ColorResources.grey,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -41,11 +53,29 @@ class _ProductScreenState extends State<ProductScreen> {
                   color: ColorResources.white,
                   height: 16,
                   width: 20,
-                )),
+                )
+            ),
+            actions: [
+              Stack(
+                children: [
+                  IconButtonWidget(image: Images.cart, onTab: () => const MyCartss()),
+                  Positioned(top: 6, right: 6,
+                      child: Consumer<CartProvider>(builder: (context, cart, child){
+                        return CircleAvatar(radius: 7, backgroundColor: ColorResources.red,
+                          child: Text(cart.cartList.length.toString(),
+                              style: ubuntuSemiBold.copyWith(color: ColorResources.white, fontSize: Dimensions.fontSizeExtraSmall,
+                              )),
+                        );
+                      },)
+                  ),
+                ],
+              ),
+              const SizedBox(width: 5,)
+            ],
           ),
           SliverToBoxAdapter(
             child: Container(
-              //height: ch,
+              // height: ch,
               width: cw,
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.only(
@@ -104,14 +134,11 @@ class _ProductScreenState extends State<ProductScreen> {
                                 Icons.star_outlined,
                                 color: ColorResources.textFontColor,
                               ),
-                              const SizedBox(
-                                width: 7,
-                              ),
-                              Text(
-                                "3.8",
-                                style: titleHeader.copyWith(
-                                    color: ColorResources.textFontColor),
-                              ),
+                              // Text(
+                              //   "${widget.newProductsDioModel!.}",
+                              //   style: titleHeader.copyWith(
+                              //       color: ColorResources.textFontColor),
+                              // ),
                               Container(
                                 margin: const EdgeInsets.only(
                                     left: Dimensions.marginSizeDefault),
@@ -122,7 +149,7 @@ class _ProductScreenState extends State<ProductScreen> {
                               TextButton(
                                 onPressed: () {},
                                 child: Text(
-                                  "137 Reviews",
+                                  "${widget.newProductsDioModel!.rating}",
                                   style: titilliumRegular.copyWith(
                                       fontSize: Dimensions.fontSizeLarge,
                                       color: ColorResources.lightSkyBlue,
@@ -135,7 +162,7 @@ class _ProductScreenState extends State<ProductScreen> {
                             ],
                           ),
 
-                          Text("\$210.00",
+                          Text("\$${widget.newProductsDioModel!.price}",
                               style: titilliumBold.copyWith(
                                 fontSize: Dimensions.fontSizeOverLarge,
                                 color: ColorResources.black,
@@ -164,67 +191,16 @@ class _ProductScreenState extends State<ProductScreen> {
                           const SizedBox(
                             height: 10,
                           ),
-                          Text("Bluetooth Connection : Yes",
-                              style: titilliumRegular.copyWith(
-                                fontSize: Dimensions.fontSizeLarge,
-                                color: ColorResources.black,
-                              )),
-                          Text("Water Resistance: No",
-                              style: titilliumRegular.copyWith(
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: Text(widget.newProductsDioModel!.description,
+                                style: titilliumRegular.copyWith(
                                   fontSize: Dimensions.fontSizeLarge,
                                   color: ColorResources.black,
-                                  height: 2)),
-                          Text("NFC (Near Field Communication): Yes",
-                              style: titilliumRegular.copyWith(
-                                  fontSize: Dimensions.fontSizeLarge,
-                                  color: ColorResources.black,
-                                  height: 2)),
-
+                                )),
+                          ),
                           const SizedBox(
                             height: 30,
-                          ),
-
-                          Row(
-                            children: [
-                              Container(
-                                height: 50,
-                                width: 50,
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.white,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(
-                                      Dimensions.paddingSizeSmall),
-                                  child: Image.asset(
-                                    Images.favourite,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  margin: const EdgeInsets.only(
-                                      left: Dimensions.marginSizeLarge),
-                                  alignment: Alignment.center,
-                                  height: 50,
-                                  width: cw * 0.7,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(50),
-                                    color: ColorResources.green,
-                                  ),
-                                  child: Text(
-                                    "ADD TO CART",
-                                    style: titilliumBold.copyWith(
-                                        fontSize: Dimensions.fontSizeLarge,
-                                        color: Colors.white),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-
-                          const SizedBox(
-                            height: 60,
                           ),
                         ],
                       ),
@@ -234,6 +210,64 @@ class _ProductScreenState extends State<ProductScreen> {
               ),
             ),
           ),
+        ],
+      ),
+      bottomNavigationBar: Row(
+        children: [
+          const SizedBox(width: 10,),
+          InkWell(
+            onTap: (){
+              if (loveProvider.isLoved(love)) {
+                loveProvider.removeFromLove(love);
+                ScaffoldMessenger.of(context).showSnackBar(snackBar("Removed From Favourite"));
+              } else {
+                loveProvider.addToLove(love);
+                ScaffoldMessenger.of(context).showSnackBar(snackBar("Added To Favourite"));
+              }
+            },
+            child: loveProvider.isLoved(love)
+                ? const Icon(Icons.favorite, color: ColorResources.red,)
+                : const Icon(Icons.favorite_border),
+          ),
+          Expanded(
+            child: InkWell(
+              onTap: (){
+                CartModel cart = CartModel(widget.newProductsDioModel, 1);
+                List<CartModel> cartList = Provider.of<CartProvider>(context, listen: false).cartList;
+                bool alreadyInCart = false;
+                for (CartModel item in cartList) {
+                  if (item.newProductsDioModel!.id == cart.newProductsDioModel!.id) {
+                    alreadyInCart = true;
+                    break;
+                  }
+                }
+                if (!alreadyInCart) {
+                  Provider.of<CartProvider>(context, listen: false).addToCart(cart);
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar("Add To Cart"));
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar("Item is already in cart"));
+                }
+              },
+              child: Container(
+                margin: const EdgeInsets.only(
+                    left: Dimensions.marginSizeLarge),
+                alignment: Alignment.center,
+                height: 50,
+                width: cw * 0.7,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50),
+                  color: ColorResources.green,
+                ),
+                child: Text(
+                  "ADD TO CART",
+                  style: titilliumBold.copyWith(
+                      fontSize: Dimensions.fontSizeLarge,
+                      color: Colors.white),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 10,)
         ],
       ),
     );

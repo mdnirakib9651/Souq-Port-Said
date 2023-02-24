@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:souq_port_said/utill/style/lato_styles.dart';
+import '../../../data/provider/cart provider/cart_provider.dart';
 import '../../../utill/color_resources.dart';
 import '../../../utill/font_size/dimensions.dart';
 import '../../../utill/images.dart';
 import '../../../utill/style/ubuntu.dart';
 import '../../basewidget/Icon Button/iconbutton_widget.dart';
+import '../cart/cart.dart';
 import '../search/search_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -38,7 +41,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 centerTitle: true,
                 actions: [
                   IconButtonWidget(image: Images.search, onTab: () => const SearchScreen()), // --->> Search Screen
-                  IconButtonWidget(image: Images.cart, onTab: (){}),
+                  Stack(
+                    children: [
+                      IconButtonWidget(image: Images.cart, onTab: () => const MyCartss()),
+                      Positioned(
+                          top: 6,
+                          right: 6,
+                          child: Consumer<CartProvider>(builder: (context, cart, child){
+                            return CircleAvatar(radius: 7, backgroundColor: ColorResources.red,
+                              child: Text(cart.cartList.length.toString(),
+                                  style: ubuntuSemiBold.copyWith(color: ColorResources.white, fontSize: Dimensions.fontSizeExtraSmall,
+                                  )),
+                            );
+                          },)
+                      ),
+                    ],
+                  ), // --->> Search Screen
+                  const SizedBox(width: 5,)
                 ],
                 floating: false, // --->> Scroable
                 pinned: true, // --->> AppBar Fixed

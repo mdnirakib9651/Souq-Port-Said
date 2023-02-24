@@ -3,8 +3,6 @@ import 'package:souq_port_said/utill/color_resources.dart';
 import 'package:souq_port_said/utill/style/heebo_styles.dart';
 import 'package:souq_port_said/utill/style/ubuntu.dart';
 
-import '../find product/find_product.dart';
-
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
 
@@ -70,7 +68,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     children: [
                       TextButton(
                           onPressed: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const FindProduct()));
+                            // Navigator.push(context, MaterialPageRoute(builder: (context) => const FindProduct()));
                           },
                           child: Text("Popular", style: heebooReguler.copyWith(fontWeight: FontWeight.w800, fontSize: 22, color: ColorResources.black,),),),
                       const SizedBox(height: 18,),

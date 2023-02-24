@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-
 import '../../../utill/color_resources.dart';
 import '../../../utill/images.dart';
 import '../favourite/favourite.dart';
+import '../find product/find_product.dart';
 import '../homepage/homepage_screen.dart';
 import '../order_details/orderdetails_screen.dart';
 import '../profile/profile.dart';
@@ -19,7 +19,7 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
   int currentTab = 0;
   final List<Widget> screens = [
     const homePageScreen(),
-    const OrderDetailsScreen(),
+    const FindProduct(),
     const Favourite(),
     const ProfileScreen()
   ];
@@ -41,7 +41,7 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
         child: FloatingActionButton(
           backgroundColor: ColorResources.flateColor,
           onPressed: (){
-            // Get.to(const CardScreen());
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const OrderDetailsScreen()));
           },
             child: Image.asset(Images.menu, color: ColorResources.white, height: 20, width: 20,)
         ),
@@ -75,7 +75,7 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
                   minWidth: 40,
                   onPressed: (){
                     setState(() {
-                      currentScreen = const OrderDetailsScreen();
+                      currentScreen = const FindProduct();
                       currentTab = 1;
                     });
                   },

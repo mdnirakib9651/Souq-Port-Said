@@ -31,6 +31,7 @@ class Images {
   static const String email = 'assets/icons/email.png'; // --->> profile screen drawer logo
   static const String phone = 'assets/icons/phone.png'; // --->> profile screen drawer logo
   static const String change = 'assets/icons/change.png'; // --->> profile screen drawer logo
+  static const String delete = 'assets/icons/delete.png'; // --->> profile screen drawer logo
 
 
 // ------------->>>> Image Assets <<<<-----------------

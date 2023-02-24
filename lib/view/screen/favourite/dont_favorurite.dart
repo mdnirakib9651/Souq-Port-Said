@@ -1,7 +1,8 @@
-// ignore_for_file: unnecessary_null_comparison
+// ignore_for_file: unnecessary_null_comparison, duplicate_ignore
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../data/model/response/newproduct_dio_model.dart';
+import '../../../data/provider/cart provider/cart_provider.dart';
 import '../../../data/provider/homepage_provider/newproduct_provider.dart';
 import '../../../data/provider/newproduct_dio_provider.dart';
 import '../../../utill/color_resources.dart';
@@ -9,6 +10,7 @@ import '../../../utill/font_size/dimensions.dart';
 import '../../../utill/images.dart';
 import '../../../utill/style/ubuntu.dart';
 import '../../basewidget/Icon Button/iconbutton_widget.dart';
+import '../cart/cart.dart';
 import '../homepage/widget/newproduct_widget.dart';
 import '../product screen/product_screen.dart';
 import '../search/search_screen.dart';
@@ -21,8 +23,6 @@ class DontFavorurite extends StatefulWidget {
 }
 
 class _DontFavoruriteState extends State<DontFavorurite> {
-
-  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -63,7 +63,23 @@ class _DontFavoruriteState extends State<DontFavorurite> {
                   centerTitle: true,
                   actions: [
                     IconButtonWidget(image: Images.search, onTab: () => const SearchScreen()), // --->> Search Screen
-                    IconButtonWidget(image: Images.cart, onTab: (){}),
+                    Stack(
+                      children: [
+                        IconButtonWidget(image: Images.cart, onTab: () => const MyCartss()),
+                        Positioned(
+                            top: 6,
+                            right: 6,
+                            child: Consumer<CartProvider>(builder: (context, cart, child){
+                              return CircleAvatar(radius: 7, backgroundColor: ColorResources.red,
+                                child: Text(cart.cartList.length.toString(),
+                                    style: ubuntuSemiBold.copyWith(color: ColorResources.white, fontSize: Dimensions.fontSizeExtraSmall,
+                                    )),
+                              );
+                            },)
+                        ),
+                      ],
+                    ), // --->> Search Screen
+                    const SizedBox(width: 5,)
                   ],
                   floating: false, // --->> Scroable
                   pinned: true, // --->> AppBar Fixed
@@ -97,7 +113,7 @@ class _DontFavoruriteState extends State<DontFavorurite> {
                             ),
                             const SizedBox(height: 20,),
                             const Icon(Icons.favorite, color: Colors.grey, size: 180,),
-                            Text("You don't have any savae items", style: ubuntuHeader.copyWith(fontSize: Dimensions.fontSizeExtraLarge, color: ColorResources.textFontColor),),
+                            Text("You don't have any save items", style: ubuntuHeader.copyWith(fontSize: Dimensions.fontSizeExtraLarge, color: ColorResources.textFontColor),),
                             const SizedBox(height: 20,),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -110,7 +126,7 @@ class _DontFavoruriteState extends State<DontFavorurite> {
                               // ignore: unnecessary_null_comparison
                               List<NewProductsDioModel> productDioList;
                               productDioList = newDioProduct.newProductDioList;
-                              return productDioList.length != 0 ?
+                              return productDioList.isNotEmpty ?
                               SizedBox(
                                 height: 300,
                                 child: NotificationListener<OverscrollIndicatorNotification>(

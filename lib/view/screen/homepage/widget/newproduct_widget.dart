@@ -1,6 +1,10 @@
 // ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:souq_port_said/data/model/response/love%20model/love_model.dart';
 import 'package:souq_port_said/data/model/response/newproduct_dio_model.dart';
+import 'package:souq_port_said/data/provider/love_provider/love_provider.dart';
+import 'package:souq_port_said/view/basewidget/snackbar.dart';
 import '../../../../utill/color_resources.dart';
 import '../../../../utill/font_size/dimensions.dart';
 import '../../../../utill/style/ubuntu.dart';
@@ -16,6 +20,8 @@ class NewProduct_widget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    LoveModel love = LoveModel(newProductsDioModel, 1);
+    LoveProvider loveProvider = Provider.of<LoveProvider>(context, listen: false);
     return Column(
         children: [
           Container(
@@ -29,12 +35,24 @@ class NewProduct_widget extends StatelessWidget {
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: const [
+                  children: [
                     Padding(
-                      padding: EdgeInsets.only(top: Dimensions.paddingSizeDefault,right: Dimensions.paddingSizeDefault),
-                      child: Icon(Icons.favorite_border),
+                      padding: const EdgeInsets.only(top: Dimensions.paddingSizeDefault,right: Dimensions.paddingSizeDefault),
+                      child: InkWell(
+                        onTap: (){
+                          if (loveProvider.isLoved(love)) {
+                            loveProvider.removeFromLove(love);
+                            ScaffoldMessenger.of(context).showSnackBar(snackBar("Removed From Favourite"));
+                          } else {
+                            loveProvider.addToLove(love);
+                            ScaffoldMessenger.of(context).showSnackBar(snackBar("Added To Favourite"));
+                          }
+                        },
+                        child: loveProvider.isLoved(love)
+                            ? const Icon(Icons.favorite, color: ColorResources.red,)
+                            : const Icon(Icons.favorite_border),
                     ),
-                  ],
+                    )],
                 ),
                 Image.network(newProductsDioModel!.image, height: 140, width: 150,),
               ],

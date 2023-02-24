@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, non_constant_identifier_names
+// ignore_for_file: must_be_immutable, non_constant_identifier_names, camel_case_types
 
 import 'package:flutter/cupertino.dart';
 
@@ -7,7 +7,6 @@ import '../../../../utill/color_resources.dart';
 import '../../../../utill/font_size/dimensions.dart';
 import '../../../../utill/style/lato_styles.dart';
 
-// ignore: must_be_immutable
 class findWomanWidget extends StatelessWidget {
 
   FindWoman_model? findWoman_model;
