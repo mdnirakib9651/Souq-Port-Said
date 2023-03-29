@@ -5,7 +5,6 @@ import 'package:souq_port_said/data/provider/favorurite/favorurite_provider.dart
 import 'package:souq_port_said/data/provider/love_provider/love_provider.dart';
 import 'package:souq_port_said/utill/color_resources.dart';
 import 'package:souq_port_said/utill/images.dart';
-import 'package:souq_port_said/utill/style/lato_styles.dart';
 import 'package:souq_port_said/view/basewidget/Icon%20Button/iconbutton_widget.dart';
 import 'package:souq_port_said/view/screen/favourite/widget/favourite_widget.dart';
 import '../../../data/provider/cart provider/cart_provider.dart';
@@ -61,7 +60,7 @@ class _FavouriteState extends State<Favourite> {
                     IconButtonWidget(image: Images.search, onTab: () => const SearchScreen()), // --->> Search Screen
                     Stack(
                       children: [
-                        IconButtonWidget(image: Images.cart, onTab: () => MyCartss()),
+                        IconButtonWidget(image: Images.cart, onTab: () => const MyCartss()),
                         Positioned(
                             top: 6,
                             right: 6,
@@ -102,9 +101,13 @@ class _FavouriteState extends State<Favourite> {
                           Row(
                             children: [
                               IconButton(
+                                  splashColor: Colors.transparent,
+                                  highlightColor: Colors.transparent,
+                                  hoverColor: Colors.transparent,
+                                  focusColor: Colors.transparent,
                                   onPressed: (){},
                                   icon: const Icon(Icons.close)),
-                              Text("Favorurite", style: ubuntuHeader.copyWith(fontSize: Dimensions.fontSizeExtraLarge, color: ColorResources.black),),
+                              Text("Favourite", style: ubuntuHeader.copyWith(fontSize: Dimensions.fontSizeExtraLarge, color: ColorResources.black),),
                             ],
                           ),
                           SizedBox(

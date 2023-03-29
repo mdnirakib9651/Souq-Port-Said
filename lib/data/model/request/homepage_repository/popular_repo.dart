@@ -1,5 +1,4 @@
 import '../../../../utill/images.dart';
-import '../../response/homepage_model/newproduct_model.dart';
 import '../../response/homepage_model/popular_model.dart';
 
 class PopularRepository{

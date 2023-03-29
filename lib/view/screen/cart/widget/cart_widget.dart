@@ -9,7 +9,7 @@ import '../../../../utill/color_resources.dart';
 import '../../../../utill/font_size/dimensions.dart';
 import '../../../../utill/style/lato_styles.dart';
 import '../../../basewidget/snackbar.dart';
-import '../../product screen/product_screen.dart';
+import '../../product screen/new_product_screen.dart';
 
 class CartWidget extends StatelessWidget {
   final CartModel cartModel;
@@ -23,7 +23,7 @@ class CartWidget extends StatelessWidget {
     LoveProvider loveProvider = Provider.of<LoveProvider>(context, listen: false);
     return InkWell(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => ProductScreen(newProductsDioModel: cartModel.newProductsDioModel)));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => NewProductScreen(newProductsDioModel: cartModel.newProductsDioModel)));
       },
       child: Container(
         height: 125,
@@ -67,8 +67,8 @@ class CartWidget extends StatelessWidget {
                           }
                         },
                         child: loveProvider.isLoved(love)
-                            ? Icon(Icons.favorite, color: ColorResources.red,)
-                            : Icon(Icons.favorite_border),
+                            ? const Icon(Icons.favorite, color: ColorResources.red,)
+                            : const Icon(Icons.favorite_border),
                       ),
                       const SizedBox(width: 10,),
                       !fromCheckout ?

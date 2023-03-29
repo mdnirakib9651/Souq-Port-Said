@@ -1,10 +1,10 @@
 // ignore_for_file: unnecessary_null_comparison, duplicate_ignore
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../data/model/response/newproduct_dio_model.dart';
+import '../../../data/model/response/homepage_model/newproduct_dio_model.dart';
 import '../../../data/provider/cart provider/cart_provider.dart';
 import '../../../data/provider/homepage_provider/newproduct_provider.dart';
-import '../../../data/provider/newproduct_dio_provider.dart';
+import '../../../data/provider/homepage_provider/newproduct_dio_provider.dart';
 import '../../../utill/color_resources.dart';
 import '../../../utill/font_size/dimensions.dart';
 import '../../../utill/images.dart';
@@ -12,7 +12,7 @@ import '../../../utill/style/ubuntu.dart';
 import '../../basewidget/Icon Button/iconbutton_widget.dart';
 import '../cart/cart.dart';
 import '../homepage/widget/newproduct_widget.dart';
-import '../product screen/product_screen.dart';
+import '../product screen/new_product_screen.dart';
 import '../search/search_screen.dart';
 
 class DontFavorurite extends StatefulWidget {
@@ -141,7 +141,7 @@ class _DontFavoruriteState extends State<DontFavorurite> {
                                       itemBuilder: (BuildContext context, int index){
                                         return InkWell(
                                           onTap: (){
-                                            Navigator.push(context, MaterialPageRoute(builder: (context) => ProductScreen(newProductsDioModel: productDioList[index],)));
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) => NewProductScreen(newProductsDioModel: productDioList[index],)));
                                           },
                                           child: Padding(
                                             padding: const EdgeInsets.symmetric(horizontal: 10),

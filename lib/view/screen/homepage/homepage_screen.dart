@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:souq_port_said/data/model/response/newproduct_dio_model.dart';
+import 'package:souq_port_said/data/model/response/homepage_model/newproduct_dio_model.dart';
+import 'package:souq_port_said/data/model/response/homepage_model/popular_dio_model.dart';
 import 'package:souq_port_said/data/provider/homepage_provider/popularapi_provider.dart';
-import 'package:souq_port_said/data/provider/newproduct_dio_provider.dart';
+import 'package:souq_port_said/data/provider/homepage_provider/newproduct_dio_provider.dart';
 import 'package:souq_port_said/utill/color_resources.dart';
 import 'package:souq_port_said/utill/font_size/dimensions.dart';
 import 'package:souq_port_said/utill/images.dart';
 import 'package:souq_port_said/view/basewidget/Icon%20Button/iconbutton_widget.dart';
 import '../../../data/provider/cart provider/cart_provider.dart';
 import '../../../data/provider/homepage_provider/newproduct_provider.dart';
+import '../../../data/provider/homepage_provider/popular_dio_provider.dart';
 import '../../../data/provider/homepage_provider/popular_provider.dart';
 import '../../../utill/style/lato_styles.dart';
 import '../../../utill/style/ubuntu.dart';
 import '../cart/cart.dart';
-import '../product screen/product_list.dart';
-import '../product screen/product_screen.dart';
+import '../product screen/popular_product_screen.dart';
+import '../product screen/new_product_screen.dart';
 import '../search/search_screen.dart';
 import 'widget/newproduct_widget.dart';
 
@@ -46,6 +48,7 @@ class _homePageScreenState extends State<homePageScreen> {
 
   _loading(BuildContext context){
     Provider.of<NewProductDioProvider>(context, listen: false).getNewProductListData();
+    Provider.of<PopularDioProvider>(context, listen: false).getPopularListData();
   }
 
   @override
@@ -197,8 +200,12 @@ class _homePageScreenState extends State<homePageScreen> {
                                   itemCount: productDioList.length,
                                   itemBuilder: (BuildContext context, int index){
                                     return InkWell(
+                                      splashColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                      hoverColor: Colors.transparent,
+                                      focusColor: Colors.transparent,
                                       onTap: (){
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => ProductScreen(newProductsDioModel: productDioList[index],)));
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => NewProductScreen(newProductsDioModel: productDioList[index],)));
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -240,8 +247,10 @@ class _homePageScreenState extends State<homePageScreen> {
                             ],
                           ),
                         ),
-                        Consumer<PopularApiProvider>(builder: (context, popularApi, child){
-                          return popularApi.popularApiList != null ?
+                        Consumer<PopularDioProvider>(builder: (context, popularProduct, child){
+                          List<PopularDioModel> productDioList;
+                          productDioList = popularProduct.popularDioList;
+                          return productDioList.isNotEmpty ?
                           SizedBox(
                             width: MediaQuery.of(context).size.width,
                             child: GridView.builder(
@@ -255,11 +264,15 @@ class _homePageScreenState extends State<homePageScreen> {
                               ),
                                 scrollDirection: Axis.vertical,
                                 padding: const EdgeInsets.only(left: Dimensions.paddingSizeDefault),
-                                itemCount: popularApi.popularApiList!.length,
+                                itemCount: productDioList.length,
                                 itemBuilder: (BuildContext context, int index){
                                   return InkWell(
+                                    splashColor: Colors.transparent,
+                                    highlightColor: Colors.transparent,
+                                    hoverColor: Colors.transparent,
+                                    focusColor: Colors.transparent,
                                     onTap: (){
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => const ProductDetails()));
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => PopularProductScreen(popularDioModel: productDioList[index],)));
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -285,15 +298,15 @@ class _homePageScreenState extends State<homePageScreen> {
                                                       ),
                                                     ],
                                                   ),
-                                                  Image.network(popularApi.popularApiList![index].image, height: 140, width: 150,),
+                                                  Image.network(productDioList[index].image, height: 140, width: 150,),
                                                 ],
                                               ),
                                             ),
                                             const SizedBox(height: 9,),
                                             Flexible(
-                                                child: Text(popularApi.popularApiList![index].title, style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeLarge,color: ColorResources.textFontColor, overflow: TextOverflow.ellipsis),textAlign: TextAlign.center, maxLines: 2,)),
+                                                child: Text(productDioList[index].title, style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeLarge,color: ColorResources.textFontColor, overflow: TextOverflow.ellipsis),textAlign: TextAlign.center, maxLines: 2,)),
                                             const SizedBox(height: 5,),
-                                            Text("\$${popularApi.popularApiList![index].price}",style: ubuntuHeader.copyWith(fontSize: Dimensions.fontSizeExtraLarge),),
+                                            Text("\$${productDioList[index].price}",style: ubuntuHeader.copyWith(fontSize: Dimensions.fontSizeExtraLarge),),
                                           ],
                                         ),
                                       ),

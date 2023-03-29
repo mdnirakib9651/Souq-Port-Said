@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:souq_port_said/data/model/response/card%20model/card_model.dart';
+import 'package:souq_port_said/data/provider/cart%20provider/cart_popular_provider.dart';
 import 'package:souq_port_said/data/provider/cart%20provider/cart_provider.dart';
 import 'package:souq_port_said/utill/style/lato_styles.dart';
 import 'package:souq_port_said/view/basewidget/order_complete_dialog.dart';
@@ -30,6 +31,7 @@ class _MyCartssState extends State<MyCartss> {
     // TODO: implement initState
     super.initState();
     Provider.of<CartProvider>(context, listen: false).getCartData();
+    Provider.of<CartPopularProvider>(context, listen: false).getCartData();
   }
 
   @override
@@ -41,9 +43,8 @@ class _MyCartssState extends State<MyCartss> {
       cartList.addAll(cart.cartList);
       for(int i = 0; i < cart.cartList.length; i++){
         // Calculate the total amount for this item by multiplying the price and quantity
-        double itemAmount = cart.cartList[i].newProductsDioModel!.price * cart.cartList[i].quantity;
+        amount += cart.cartList[i].newProductsDioModel!.price * cart.cartList[i].quantity;
         // Add the item amount to the total amount
-        amount += itemAmount;
       }
       return cartList.isNotEmpty ?
         Scaffold(
@@ -97,6 +98,7 @@ class _MyCartssState extends State<MyCartss> {
                               ],
                             ),
                           ),
+                          const SizedBox(height: 10,),
                           SizedBox(
                             height: MediaQuery.of(context).size.height/2.5,
                             width: MediaQuery.of(context).size.width,
@@ -105,11 +107,7 @@ class _MyCartssState extends State<MyCartss> {
                                 itemBuilder: (BuildContext context,int index){
                                   return Column(
                                     children: [
-                                      CartWidget(
-                                          cartModel: cartList[index],
-                                          index: index,
-                                          fromCheckout: widget.fromCheckout),
-                                      const SizedBox(height: 10,),
+                                      CartWidget(cartModel: cartList[index], index: index, fromCheckout: widget.fromCheckout), const SizedBox(height: 10,),
                                     ],
                                   );
                                 }),

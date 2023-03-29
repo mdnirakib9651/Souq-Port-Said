@@ -1,17 +1,19 @@
 // ignore_for_file: camel_case_types
 
 import 'package:flutter/cupertino.dart';
-import '../../../../data/model/response/find product model/find_model.dart';
+import '../../../../data/model/response/catagory_model/catagory_model.dart';
+import '../../../../data/model/response/find product model/brand_model.dart';
 import '../../../../utill/color_resources.dart';
 import '../../../../utill/font_size/dimensions.dart';
+import '../../../../utill/images.dart';
 import '../../../../utill/style/ubuntu.dart';
 
 // ignore: must_be_immutable
 class findproductWidget extends StatelessWidget {
-  FindModel findModel;
+  BrandModel? bandModel;
   findproductWidget({
     super.key,
-    required this.findModel
+    required this.bandModel
   });
 
   @override
@@ -24,11 +26,11 @@ class findproductWidget extends StatelessWidget {
       child: Column(
         children: [
           const SizedBox(height: 20,),
-          Image(image: AssetImage("${findModel.image}"), height: 94.9, width: 131.38,),
+          Image(image: AssetImage(bandModel!.image), height: 94.9, width: 131.38,),
           const SizedBox(height: 20,),
           SizedBox(
               width: 100,
-              child: Text("${findModel.title}",style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeExtraLarge,color: ColorResources.black),textAlign: TextAlign.center,))
+              child: Text(bandModel!.brandName,style: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeExtraLarge,color: ColorResources.black),textAlign: TextAlign.center,))
         ],
       ),
     );

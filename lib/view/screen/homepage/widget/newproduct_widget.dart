@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:souq_port_said/data/model/response/love%20model/love_model.dart';
-import 'package:souq_port_said/data/model/response/newproduct_dio_model.dart';
+import 'package:souq_port_said/data/model/response/homepage_model/newproduct_dio_model.dart';
 import 'package:souq_port_said/data/provider/love_provider/love_provider.dart';
 import 'package:souq_port_said/view/basewidget/snackbar.dart';
 import '../../../../utill/color_resources.dart';

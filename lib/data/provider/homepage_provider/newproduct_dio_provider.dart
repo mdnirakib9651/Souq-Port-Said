@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:souq_port_said/data/model/request/newproduct_dio_repo.dart';
+import 'package:souq_port_said/data/model/request/homepage_repository/newproduct_dio_repo.dart';
 
-import '../model/response/newproduct_dio_model.dart';
+import '../../model/response/homepage_model/newproduct_dio_model.dart';
 
 // class NewProductDioProvider extends ChangeNotifier{
 //   final NewProductDioRepo newProductDioRepo;
@@ -29,7 +29,7 @@ class NewProductDioProvider extends ChangeNotifier{
   void getNewProductListData() async{
     _newProductDioList.clear();
     _newProductDioList = await newProductDioRepo.getNewProductDio();
-    print("Product ${newProductDioList.length}");
+    print("New Product ${newProductDioList.length}");
     print(newProductDioList);
     notifyListeners();
   }

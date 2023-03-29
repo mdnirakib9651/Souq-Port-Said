@@ -1,5 +1,4 @@
 import 'package:souq_port_said/data/model/response/favorurite%20model/favorurite_model.dart';
-
 import '../../../../utill/images.dart';
 
 class FavoruriteRepository{

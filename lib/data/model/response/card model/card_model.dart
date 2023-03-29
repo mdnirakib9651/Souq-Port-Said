@@ -1,4 +1,4 @@
-import 'package:souq_port_said/data/model/response/newproduct_dio_model.dart';
+import 'package:souq_port_said/data/model/response/homepage_model/newproduct_dio_model.dart';
 
 class CartModel{
   NewProductsDioModel? newProductsDioModel;

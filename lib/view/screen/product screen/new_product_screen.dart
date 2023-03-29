@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:souq_port_said/data/model/response/card%20model/card_model.dart';
-import 'package:souq_port_said/data/model/response/newproduct_dio_model.dart';
+import 'package:souq_port_said/data/model/response/homepage_model/newproduct_dio_model.dart';
 import '../../../data/model/response/love model/love_model.dart';
 import '../../../data/provider/cart provider/cart_provider.dart';
 import '../../../data/provider/love_provider/love_provider.dart';
@@ -16,15 +16,15 @@ import '../../basewidget/navigator.dart';
 import '../../basewidget/snackbar.dart';
 import '../cart/cart.dart';
 
-class ProductScreen extends StatefulWidget {
+class NewProductScreen extends StatefulWidget {
   NewProductsDioModel? newProductsDioModel;
-  ProductScreen({Key? key, required this.newProductsDioModel}) : super(key: key);
+  NewProductScreen({Key? key, required this.newProductsDioModel}) : super(key: key);
 
   @override
-  State<ProductScreen> createState() => _ProductScreenState();
+  State<NewProductScreen> createState() => _NewProductScreenState();
 }
 
-class _ProductScreenState extends State<ProductScreen> {
+class _NewProductScreenState extends State<NewProductScreen> {
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +45,10 @@ class _ProductScreenState extends State<ProductScreen> {
             pinned: true, // ------>> appbar fixed
             floating: false, //------>> scrollable
             leading: IconButton(
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                hoverColor: Colors.transparent,
+                focusColor: Colors.transparent,
                 onPressed: () {
                   getPageBack(context);
                 },
@@ -146,8 +150,12 @@ class _ProductScreenState extends State<ProductScreen> {
                                 width: 2,
                                 color: ColorResources.textFontColor,
                               ),
-                              TextButton(
-                                onPressed: () {},
+                              InkWell(
+                                splashColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                hoverColor: Colors.transparent,
+                                focusColor: Colors.transparent,
+                                onTap: () {},
                                 child: Text(
                                   "${widget.newProductsDioModel!.rating}",
                                   style: titilliumRegular.copyWith(
@@ -156,7 +164,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                       decoration: TextDecoration.underline,
                                       decorationColor:
                                       ColorResources.lightSkyBlue,
-                                      decorationThickness: 5),
+                                      decorationThickness: 1),
                                 ),
                               ),
                             ],
@@ -215,22 +223,38 @@ class _ProductScreenState extends State<ProductScreen> {
       bottomNavigationBar: Row(
         children: [
           const SizedBox(width: 10,),
-          InkWell(
-            onTap: (){
-              if (loveProvider.isLoved(love)) {
-                loveProvider.removeFromLove(love);
-                ScaffoldMessenger.of(context).showSnackBar(snackBar("Removed From Favourite"));
-              } else {
-                loveProvider.addToLove(love);
-                ScaffoldMessenger.of(context).showSnackBar(snackBar("Added To Favourite"));
-              }
-            },
-            child: loveProvider.isLoved(love)
-                ? const Icon(Icons.favorite, color: ColorResources.red,)
-                : const Icon(Icons.favorite_border),
+          Container(
+            height: 50,
+            width: 50,
+            decoration: BoxDecoration(
+              color: ColorResources.white,
+              borderRadius: BorderRadius.circular(100),
+            ),
+            child: InkWell(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              hoverColor: Colors.transparent,
+              focusColor: Colors.transparent,
+              onTap: (){
+                if (loveProvider.isLoved(love)) {
+                  loveProvider.removeFromLove(love);
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar("Removed From Favourite"));
+                } else {
+                  loveProvider.addToLove(love);
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar("Added To Favourite"));
+                }
+              },
+              child: loveProvider.isLoved(love)
+                  ? const Icon(Icons.favorite, color: ColorResources.red,)
+                  : const Icon(Icons.favorite_border),
+            ),
           ),
           Expanded(
             child: InkWell(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              hoverColor: Colors.transparent,
+              focusColor: Colors.transparent,
               onTap: (){
                 CartModel cart = CartModel(widget.newProductsDioModel, 1);
                 List<CartModel> cartList = Provider.of<CartProvider>(context, listen: false).cartList;
@@ -267,7 +291,7 @@ class _ProductScreenState extends State<ProductScreen> {
               ),
             ),
           ),
-          const SizedBox(width: 10,)
+          const SizedBox(width: 10, height: 70,)
         ],
       ),
     );

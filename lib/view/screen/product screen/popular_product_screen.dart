@@ -1,23 +1,30 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:souq_port_said/data/model/response/card%20model/cart_popular_model.dart';
+import 'package:souq_port_said/data/model/response/homepage_model/popular_dio_model.dart';
+import 'package:souq_port_said/data/provider/cart%20provider/cart_popular_provider.dart';
 import '../../../utill/color_resources.dart';
 import '../../../utill/font_size/dimensions.dart';
 import '../../../utill/images.dart';
 import '../../../utill/style/ubuntu.dart';
+import '../../basewidget/snackbar.dart';
 
-class ProductDetails extends StatefulWidget {
-  const ProductDetails({Key? key}) : super(key: key);
+class PopularProductScreen extends StatefulWidget {
+  PopularDioModel popularDioModel;
+  PopularProductScreen({Key? key, required this.popularDioModel}) : super(key: key);
 
   @override
-  State<ProductDetails> createState() => _ProductDetailsState();
+  State<PopularProductScreen> createState() => _PopularProductScreenState();
 }
 
-class _ProductDetailsState extends State<ProductDetails> {
+class _PopularProductScreenState extends State<PopularProductScreen> {
 
   @override
   Widget build(BuildContext context) {
     final ch = MediaQuery.of(context).size.height;
     final cw = MediaQuery.of(context).size.width;
-
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -63,7 +70,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                     height: ch * .4,
                     width: cw/1.5,
                     //  color: Colors.white,
-                    child: Image.asset(Images.nike),
+                    child: Image.network(widget.popularDioModel.image),
                   ),
                   Container(
                     // height: ch * .5,
@@ -79,7 +86,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Altec Lansing Epsilonia Bluetooth Speaker",
+                          Text(widget.popularDioModel.title,
                               style: ubuntuRegular.copyWith(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w700,
@@ -135,7 +142,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                               TextButton(
                                 onPressed: () {},
                                 child: Text(
-                                  "137 Reviews",
+                                  "${widget.popularDioModel.rating}",
                                   style: ubuntuRegular.copyWith(
                                       fontSize: Dimensions.fontSizeLarge,
                                       color: ColorResources.lightSkyBlue,
@@ -322,7 +329,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                     width: cw/1.3,
                                     child: Expanded(
                                       flex: 2,
-                                      child: Text("The Nike Air Max 270 React ENG combines a full-length React foam midsole with a 270 Max Air unit for unrivaled comfort and a striking visual experience.",
+                                      child: Text(widget.popularDioModel.description,
                                         style: ubuntuRegular.copyWith(
                                           fontSize: Dimensions.fontSizeDefault,
                                           fontWeight: FontWeight.w400,
@@ -333,7 +340,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   ),
                                 ],
                               ),
-
 
                               Text("Laser",
                                   style: ubuntuRegular.copyWith(
@@ -422,19 +428,38 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 ),
                               ),
                               Expanded(
-                                child: Container(
-                                  margin: const EdgeInsets.only(left: Dimensions.marginSizeLarge),
-                                  alignment: Alignment.center,
-                                  height: 50,
-                                  width: cw * 0.7,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(50),
-                                    color: ColorResources.green,),
-                                  child: Text(
-                                    "ADD TO CART",
-                                    style: ubuntuRegular.copyWith(
-                                        fontSize: Dimensions.fontSizeLarge,
-                                        color: Colors.white),
+                                child: InkWell(
+                                  onTap: (){
+                                    CartPopularModel cart = CartPopularModel(widget.popularDioModel, 1);
+                                    List<CartPopularModel> cartList = Provider.of<CartPopularProvider>(context, listen: false).cartList;
+                                    bool alreadyInCart = false;
+                                    for(CartPopularModel item in cartList){
+                                      if(item.popularDioModel!.id == cart.popularDioModel!.id){
+                                        alreadyInCart = true;
+                                        break;
+                                      }
+                                    }
+                                    if(!alreadyInCart){
+                                      Provider.of<CartPopularProvider>(context, listen: false).addToCart(cart);
+                                      ScaffoldMessenger.of(context).showSnackBar(snackBar("Add To Cart"));
+                                    } else{
+                                      ScaffoldMessenger.of(context).showSnackBar(snackBar("Item is already in cart"));
+                                    }
+                                  },
+                                  child: Container(
+                                    margin: const EdgeInsets.only(left: Dimensions.marginSizeLarge),
+                                    alignment: Alignment.center,
+                                    height: 50,
+                                    width: cw * 0.7,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(50),
+                                      color: ColorResources.green,),
+                                    child: Text(
+                                      "ADD TO CART",
+                                      style: ubuntuRegular.copyWith(
+                                          fontSize: Dimensions.fontSizeLarge,
+                                          color: Colors.white),
+                                    ),
                                   ),
                                 ),
                               ),

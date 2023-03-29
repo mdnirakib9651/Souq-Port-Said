@@ -7,14 +7,14 @@ import '../homepage/homepage_screen.dart';
 import '../order_details/orderdetails_screen.dart';
 import '../profile/profile.dart';
 
-class NavigationBarScreen extends StatefulWidget {
-  const NavigationBarScreen({Key? key}) : super(key: key);
+class DeshBoardScreen extends StatefulWidget {
+  const DeshBoardScreen({Key? key}) : super(key: key);
 
   @override
-  State<NavigationBarScreen> createState() => _NavigationBarScreenState();
+  State<DeshBoardScreen> createState() => _DeshBoardScreenState();
 }
 
-class _NavigationBarScreenState extends State<NavigationBarScreen> {
+class _DeshBoardScreenState extends State<DeshBoardScreen> {
 
   int currentTab = 0;
   final List<Widget> screens = [
@@ -40,6 +40,9 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
         width: 66,
         child: FloatingActionButton(
           backgroundColor: ColorResources.flateColor,
+            splashColor: Colors.transparent,
+            hoverColor: Colors.transparent,
+            focusColor: Colors.transparent,
           onPressed: (){
             Navigator.push(context, MaterialPageRoute(builder: (context) => const OrderDetailsScreen()));
           },
@@ -59,6 +62,10 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
               Padding(
                 padding: const EdgeInsets.only(left: 10),
                 child: MaterialButton(
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    focusColor: Colors.transparent,
                   minWidth: 40,
                   onPressed: (){
                     setState(() {
@@ -72,6 +79,10 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
               Padding(
                 padding: const EdgeInsets.only(right: 50),
                 child: MaterialButton(
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    focusColor: Colors.transparent,
                   minWidth: 40,
                   onPressed: (){
                     setState(() {
@@ -86,6 +97,10 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
               Padding(
                 padding: const EdgeInsets.only(left: 50),
                 child: MaterialButton(
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    focusColor: Colors.transparent,
                   minWidth: 40,
                   onPressed: (){
                     setState(() {
@@ -99,6 +114,10 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
               Padding(
                 padding: const EdgeInsets.only(right: 10),
                 child: MaterialButton(
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    focusColor: Colors.transparent,
                   minWidth: 40,
                   onPressed: (){
                     setState(() {

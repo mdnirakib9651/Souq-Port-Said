@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:souq_port_said/data/provider/find%20provider/find_provider.dart';
+import '../../../data/provider/find provider/brand_provider.dart';
 import '../../../utill/color_resources.dart';
 import '../../../utill/font_size/dimensions.dart';
 import '../../../utill/images.dart';
 import '../../../utill/style/ubuntu.dart';
 import '../../basewidget/Icon Button/iconbutton_widget.dart';
 import '../search/search_screen.dart';
-import 'findproduct_screen.dart';
 import 'widget/findproduct_widget.dart';
 
 class FindProduct extends StatefulWidget {
@@ -25,7 +25,8 @@ class _FindProductState extends State<FindProduct> {
     // TODO: implement initState
     super.initState();
     final findMdl = Provider.of<FindProvider>(context, listen: false);
-    findMdl.getFindListData();
+    findMdl.getCatagoryList();
+    Provider.of<BrandProvider>(context, listen: false).getBrand();
   }
 
   @override
@@ -64,11 +65,11 @@ class _FindProductState extends State<FindProduct> {
                     child: Column(
                       children: [
                         Text("Find Products",style: ubuntuHeader.copyWith(fontSize: Dimensions.fontSizeOverLarge,color: ColorResources.white),),
-                        Consumer<FindProvider>(builder: (context, findProduct, child){
+                        Consumer<BrandProvider>(builder: (context, bandProduct, child){
                           // ignore: unnecessary_null_comparison
-                          return findProduct.findList != null ?
+                          return bandProduct.brandList != null ?
                           GridView.builder(
-                            itemCount: findProduct.findList.length,
+                            itemCount: bandProduct.brandList.length,
                             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
                               crossAxisSpacing: 15,
@@ -79,10 +80,14 @@ class _FindProductState extends State<FindProduct> {
                             shrinkWrap: true, // --->> Show Page
                             itemBuilder: (context,int index){
                               return InkWell(
+                                splashColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                hoverColor: Colors.transparent,
+                                focusColor: Colors.transparent,
                                 onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => FindProductScreen(findModel: findProduct.findList[index],)));
+                                  // Navigator.push(context, MaterialPageRoute(builder: (context) => FindProductScreen(findModel: findProduct.findList[index],)));
                                 },
-                                child: findproductWidget(findModel: findProduct.findList[index],),
+                                child: findproductWidget(bandModel: bandProduct.brandList[index],),
                               );
                             },
                           ) : const Center(child: CircularProgressIndicator(),);

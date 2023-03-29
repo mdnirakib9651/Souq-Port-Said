@@ -3,7 +3,7 @@ import 'package:souq_port_said/data/model/response/love%20model/love_model.dart'
 import '../../../../utill/color_resources.dart';
 import '../../../../utill/font_size/dimensions.dart';
 import '../../../../utill/style/lato_styles.dart';
-import '../../product screen/product_screen.dart';
+import '../../product screen/new_product_screen.dart';
 
 class FavouriteWidget extends StatelessWidget {
   final LoveModel loveModel;
@@ -14,7 +14,7 @@ class FavouriteWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => ProductScreen(newProductsDioModel: loveModel.newProductsDioModel)));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => NewProductScreen(newProductsDioModel: loveModel.newProductsDioModel)));
       },
       child: Column(
         children: [

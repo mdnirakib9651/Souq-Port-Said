@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:provider/provider.dart';
+import 'package:souq_port_said/data/model/response/registration_model/registration_model.dart';
+import 'package:souq_port_said/data/provider/auth%20provider/auth_provider.dart';
 import '../../../utill/color_resources.dart';
 import '../../../utill/font_size/dimensions.dart';
 import '../../../utill/images.dart';
 import '../../../utill/style/ubuntu.dart';
-import '../dashboard/navigationbar_screen.dart';
 import '../signin_in/signin_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -15,10 +18,17 @@ class SignUpScreen extends StatefulWidget {
 
 var _formkey = GlobalKey<FormState>();
 
-final TextEditingController _nameController=TextEditingController();
-final TextEditingController _mailController=TextEditingController();
-final TextEditingController _passController=TextEditingController();
-final TextEditingController _conPassController=TextEditingController();
+bool isPassVasiable = true;
+bool isConPassVasiable = true;
+final TextEditingController firstNameController=TextEditingController();
+final TextEditingController lastNameController=TextEditingController();
+final TextEditingController emailController=TextEditingController();
+final TextEditingController phoneController=TextEditingController();
+final TextEditingController addressController=TextEditingController();
+final TextEditingController postController=TextEditingController();
+final TextEditingController districtController=TextEditingController();
+final TextEditingController passController=TextEditingController();
+final TextEditingController conPassController=TextEditingController();
 
 
 class _SignUpScreenState extends State<SignUpScreen> {
@@ -27,12 +37,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
     var cw=MediaQuery.of(context).size.width;
     return Scaffold(
         backgroundColor: Colors.black,
-        body: Center(
+        body: NotificationListener<OverscrollIndicatorNotification>(
+          onNotification: (overScroll){
+            overScroll.disallowIndicator();
+            return true;
+          },
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                const SizedBox(height: 100,),
                 const Image(image: AssetImage(Images.splashLogo), height: 90, width: 100,),
                 Padding(
                   padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
@@ -54,13 +69,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     key: _formkey,
                     child: Column(
                       children: [
+                        //--------------------->>>>>>>>> First Name TextField <<<<<<<<--------------------
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge,
                               vertical: Dimensions.paddingSizeExtraSmall),
                           child: TextFormField(
                             decoration: InputDecoration(
                                 prefixIcon: const Icon(Icons.person, color: ColorResources.black, size: 25,),
-                                hintText: "Full Name",
+                                hintText: "First Name",
                                 hintStyle: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeLarge,
                                     color: ColorResources.black),
                                 contentPadding: const EdgeInsets.all(Dimensions.paddingSizeDefaultAddress),
@@ -79,7 +95,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 fillColor: ColorResources.white,
                                 filled: true,
                             ),
-                            controller: _nameController,
+                            controller: firstNameController,
                             keyboardType: TextInputType.name,
                             validator: (value) {
                               if(value!.isEmpty){
@@ -90,10 +106,50 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             style: ubuntuRegular.copyWith(color: ColorResources.black, fontSize: Dimensions.fontSizeLarge),
                           ),
                         ),
+                        //--------------------->>>>>>>>> Last Name TextField <<<<<<<<--------------------
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge,
                               vertical: Dimensions.paddingSizeExtraSmall),
                           child: TextFormField(
+                            controller: lastNameController,
+                            keyboardType: TextInputType.name,
+                            decoration: InputDecoration(
+                              prefixIcon: const Icon(Icons.person, color: ColorResources.black, size: 25,),
+                              hintText: "Last Name",
+                              hintStyle: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeLarge,
+                                  color: ColorResources.black),
+                              contentPadding: const EdgeInsets.all(Dimensions.paddingSizeDefaultAddress),
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8)
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8)
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8)
+                              ),
+                              fillColor: ColorResources.white,
+                              filled: true,
+                            ),
+                            validator: (value) {
+                              if(value!.isEmpty){
+                                return "Last Name can't be empty";
+                              }
+                              return null;
+                            },
+                            style: ubuntuRegular.copyWith(color: ColorResources.black, fontSize: Dimensions.fontSizeLarge),
+                          ),
+                        ),
+                        // ---------------------->>>>>>> Email TextField <<<<<<<<<<------------------
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge,
+                              vertical: Dimensions.paddingSizeExtraSmall),
+                          child: TextFormField(
+                            controller: emailController,
+                            keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
                                 prefixIcon: const Icon(Icons.email, color: ColorResources.black, size: 25,),
                                 hintText: "Your Email",
@@ -115,8 +171,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 fillColor: ColorResources.white,
                                 filled: true,
                             ),
-                            controller: _mailController,
-                            keyboardType: TextInputType.emailAddress,
                             validator: (value) {
                               if(value!.isEmpty){
                                 return "E-mail can't be empty";
@@ -126,12 +180,161 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             style: ubuntuRegular.copyWith(color: ColorResources.black, fontSize: Dimensions.fontSizeLarge),
                           ),
                         ),
+                        // ---------------------->>>>>>> Phone TextField <<<<<<<<<<------------------
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge,
                               vertical: Dimensions.paddingSizeExtraSmall),
                           child: TextFormField(
+                            controller: phoneController,
+                            keyboardType: TextInputType.phone,
                             decoration: InputDecoration(
-                                prefixIcon: const Icon(Icons.lock, color: ColorResources.black, size: 25,),
+                              prefixIcon: const Icon(Icons.phone, color: ColorResources.black, size: 25,),
+                              hintText: "Phone Number",
+                              hintStyle: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeLarge,
+                                  color: ColorResources.black),
+                              contentPadding: const EdgeInsets.all(Dimensions.paddingSizeDefaultAddress),
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8)
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8)
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8)
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8)
+                              ),
+                              fillColor: ColorResources.white,
+                              filled: true,
+                            ),
+                            validator: (value) {
+                              if(value!.isEmpty){
+                                return "Phone Number can't be empty";
+                              }
+                              return null;
+                            },
+                            style: ubuntuRegular.copyWith(color: ColorResources.black, fontSize: Dimensions.fontSizeLarge),
+                          ),
+                        ),
+                        //--------------------->>>>>>>>> Name TextField <<<<<<<<--------------------
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge,
+                              vertical: Dimensions.paddingSizeExtraSmall),
+                          child: TextFormField(
+                            controller: addressController,
+                            keyboardType: TextInputType.text,
+                            decoration: InputDecoration(
+                              prefixIcon: const Icon(Icons.location_on, color: ColorResources.black, size: 25,),
+                              hintText: "Your Address",
+                              hintStyle: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeLarge,
+                                  color: ColorResources.black),
+                              contentPadding: const EdgeInsets.all(Dimensions.paddingSizeDefaultAddress),
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8)
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8)
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8)
+                              ),
+                              fillColor: ColorResources.white,
+                              filled: true,
+                            ),
+                            validator: (value) {
+                              if(value!.isEmpty){
+                                return "Address can't be empty";
+                              }
+                              return null;
+                            },
+                            style: ubuntuRegular.copyWith(color: ColorResources.black, fontSize: Dimensions.fontSizeLarge),
+                          ),
+                        ),
+                        //--------------------->>>>>>>>> Post Code TextField <<<<<<<<--------------------
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge,
+                              vertical: Dimensions.paddingSizeExtraSmall),
+                          child: TextFormField(
+                            controller: postController,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              prefixIcon: const Icon(Icons.post_add, color: ColorResources.black, size: 25,),
+                              hintText: "Post Code",
+                              hintStyle: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeLarge,
+                                  color: ColorResources.black),
+                              contentPadding: const EdgeInsets.all(Dimensions.paddingSizeDefaultAddress),
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8)
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8)
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8)
+                              ),
+                              fillColor: ColorResources.white,
+                              filled: true,
+                            ),
+                            validator: (value) {
+                              if(value!.isEmpty){
+                                return "Post Code can't be empty";
+                              }
+                              return null;
+                            },
+                            style: ubuntuRegular.copyWith(color: ColorResources.black, fontSize: Dimensions.fontSizeLarge),
+                          ),
+                        ),
+                        //--------------------->>>>>>>>> District TextField <<<<<<<<--------------------
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge,
+                              vertical: Dimensions.paddingSizeExtraSmall),
+                          child: TextFormField(
+                            controller: districtController,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              prefixIcon: const Icon(Icons.post_add, color: ColorResources.black, size: 25,),
+                              hintText: "District Id",
+                              hintStyle: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeLarge,
+                                  color: ColorResources.black),
+                              contentPadding: const EdgeInsets.all(Dimensions.paddingSizeDefaultAddress),
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8)
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8)
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8)
+                              ),
+                              fillColor: ColorResources.white,
+                              filled: true,
+                            ),
+                            validator: (value) {
+                              if(value!.isEmpty){
+                                return "District can't be empty";
+                              }
+                              return null;
+                            },
+                            style: ubuntuRegular.copyWith(color: ColorResources.black, fontSize: Dimensions.fontSizeLarge),
+                          ),
+                        ),
+                        // ---------------------->>>>>>> Password TextField <<<<<<<<<<------------------
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge,
+                              vertical: Dimensions.paddingSizeExtraSmall),
+                          child: TextFormField(
+                            obscureText: isPassVasiable ? true : false,
+                            decoration: InputDecoration(
                                 hintText: "Password",
                                 hintStyle: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeLarge,
                                     color: ColorResources.black),
@@ -150,26 +353,42 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 ),
                                 fillColor: ColorResources.white,
                                 filled: true,
+                                prefixIcon: const Icon(Icons.lock, color: ColorResources.black, size: 25,),
+                                suffixIcon: IconButton(
+                                    splashColor: Colors.transparent,
+                                    highlightColor: Colors.transparent,
+                                    hoverColor: Colors.transparent,
+                                    focusColor: Colors.transparent,
+                                    onPressed: (){
+                                      setState(() {
+                                        isPassVasiable = !isPassVasiable;
+                                      });
+                                    },
+                                    icon: Icon(isPassVasiable ? Icons.visibility_off : Icons.visibility, color: ColorResources.black,)),
                             ),
-                            controller: _passController,
+                            controller: passController,
                             keyboardType: TextInputType.text,
                             validator: (value) {
                               if(value!.isEmpty || value.isEmpty){
                                 return "Password can't be empty";
-                              } else if(value.length<6){
-                                return "Password must be 6 characters";
+                              } else if(value.length < 8){
+                                return "Password must be 8 characters";
+                              }
+                              else if(value!=passController.text){
+                                return "Password should be matched";
                               }
                               return null;
                             },
                             style: ubuntuRegular.copyWith(color: ColorResources.black, fontSize: Dimensions.fontSizeLarge),
                           ),
                         ),
+                        // ---------------------->>>>>>> Confirm Password TextField <<<<<<<<<<------------------
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge,
                               vertical: Dimensions.paddingSizeExtraSmall),
                           child: TextFormField(
+                            obscureText: isConPassVasiable ? true : false,
                             decoration: InputDecoration(
-                                prefixIcon: const Icon(Icons.lock, color: ColorResources.black, size: 25,),
                                 hintText: "Confirm Password",
                                 hintStyle: ubuntuRegular.copyWith(fontSize: Dimensions.fontSizeLarge,
                                     color: ColorResources.black),
@@ -188,16 +407,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 ),
                                 fillColor: ColorResources.white,
                                 filled: true,
+                                prefixIcon: const Icon(Icons.lock, color: ColorResources.black, size: 25,),
+                                suffixIcon: IconButton(
+                                    splashColor: Colors.transparent,
+                                    highlightColor: Colors.transparent,
+                                    hoverColor: Colors.transparent,
+                                    focusColor: Colors.transparent,
+                                    onPressed: (){
+                                      setState(() {
+                                        isConPassVasiable = !isConPassVasiable;
+                                      });
+                                    },
+                                    icon: Icon(isConPassVasiable ? Icons.visibility_off : Icons.visibility, color: ColorResources.black,)),
                             ),
-                            controller: _conPassController,
+                            controller: conPassController,
                             keyboardType: TextInputType.text,
                             validator: (value) {
                               if(value!.isEmpty || value.isEmpty){
                                 return "Password can't be empty";
-                              } else if(value.length < 6){
-                                return "Password must be 6 characters";
+                              } else if(value.length < 8){
+                                return "Password must be 8 characters";
                               }
-                              else if(value!=_passController.text){
+                              else if(value!=passController.text){
                                 return "Password should be matched";
                               }
                               return null;
@@ -210,16 +441,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge,
                               vertical: Dimensions.paddingSizeExtraExtraSmall),
                           child: InkWell(
+                            splashColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            focusColor: Colors.transparent,
                             onTap: () {
                             if(_formkey.currentState!.validate()){
-                              setState(() {
-                                _nameController.clear();
-                                _mailController.clear();
-                                _passController.clear();
-                                _conPassController.clear();
-                              });
+                              RegistrationModel reg = RegistrationModel(
+                                  firstName: firstNameController.text.trim(),
+                                  lastName: lastNameController.text.trim(),
+                                  email: emailController.text.trim(),
+                                  mobile: phoneController.text.trim(),
+                                  address: addressController.text.trim(),
+                                  postCode: int.parse(postController.text.trim()),
+                                  districtId: int.parse(districtController.text.trim()),
+                                  password: passController.text.trim(),
+                              );
+                              Provider.of<AuthProvider>(context, listen: false).getRegister(context, reg, setState);
+                            } else{
+                              EasyLoading.showError("Not Valid");
                             }
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const NavigationBarScreen(),));
+                            // Navigator.push(context, MaterialPageRoute(builder: (context) => const NavigationBarScreen(),));
                           },
                             child: Container(
                               width: cw,
@@ -261,10 +503,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                   ],
                 ),
+                const SizedBox(height: 50,),
               ],
             ),
           ),
-
         )
 
     );

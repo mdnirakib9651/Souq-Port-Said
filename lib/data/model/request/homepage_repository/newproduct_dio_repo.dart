@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:souq_port_said/data/datasource/romote/dio/dio_client.dart';
-import 'package:souq_port_said/data/model/response/newproduct_dio_model.dart';
+import 'package:souq_port_said/data/model/response/homepage_model/newproduct_dio_model.dart';
 import 'package:souq_port_said/utill/app_constants.dart';
 
 // class NewProductDioRepo{

@@ -11,11 +11,11 @@ class LoveProvider extends ChangeNotifier{
   List<LoveModel> _loveList = [];
   List<LoveModel> get loveList => _loveList;
 
-  List<bool> _isSelectedList = [];
-  List<bool> get isSelectedList => _isSelectedList;
+  // List<bool> _isSelectedList = [];
+  // List<bool> get isSelectedList => _isSelectedList;
 
-  int _favouriteIndex = -1;
-  int get favouriteIndex => _favouriteIndex;
+  // int _favouriteIndex = -1;
+  // int get favouriteIndex => _favouriteIndex;
 
   void addToLove(LoveModel love) {
     _loveList.add(love);
